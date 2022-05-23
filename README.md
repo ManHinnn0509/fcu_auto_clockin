@@ -15,7 +15,7 @@ This is an edited & Python 3 version script of [this](https://github.com/tamama9
 
 ```
 NID=YOUR_NID_HERE
-PASSWORD_YOUR_PASSWORD_HERE
+PASSWORD=YOUR_PASSWORD_HERE
 
 WINDOWS_TESSERACT_BINANY_PATH=
 ```
@@ -41,7 +41,7 @@ WINDOWS_TESSERACT_BINANY_PATH=C:\Program Files\Tesseract-OCR\tesseract.exe
 
 ```
 NID=YOUR_NID_HERE
-PASSWORD_YOUR_PASSWORD_HERE
+PASSWORD=YOUR_PASSWORD_HERE
 ```
 
 4) If you haven't installed Tesseract yet, type `sudo apt install tesseract-ocr` in terminal
