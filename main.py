@@ -56,7 +56,7 @@ def clockIn(nid: str, password: str):
         loginData[name] = value
     
     loginData['LoginLdap$UserName'] = nid
-    loginData['LoginLdap$Password']=password
+    loginData['LoginLdap$Password'] = password
 
     loginResponse = s.post(LOGIN_URL, headers=HEADERS, data=loginData)
 
