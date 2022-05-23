@@ -31,8 +31,9 @@ def main():
         result, msg = clockIn(NID, PASSWORD)
         print(f"[{getDateTimeNow()}] {NID}: {msg}")
 
+        # Check every 15 mins
         try:
-            time.sleep(10 * 60)
+            time.sleep(15 * 60)
         except:
             break
 
