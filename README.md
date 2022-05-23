@@ -49,4 +49,5 @@ PASSWORD=YOUR_PASSWORD_HERE
 5) Should be good to go, run `python3 main.py`
 
 ## DISCLAIMER
-This script is only for **educational purposes**
+
+This script is for **educational purposes only**
