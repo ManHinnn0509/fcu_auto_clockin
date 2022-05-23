@@ -12,6 +12,10 @@ from dotenv import load_dotenv
 from const import *
 
 def main():
+    # Default: Clock-in every 15 mins
+    SLEEP_MINS = 15
+    SLEEP_SECS = SLEEP_MINS * 60
+
     load_dotenv()
 
     NID = os.getenv("NID")
@@ -19,21 +23,30 @@ def main():
 
     # Windows
     if (os.name == "nt"):
-        WINDOWS_TESSERACT_BINANY_PATH = os.getenv("WINDOWS_TESSERACT_BINANY_PATH")
-        if (WINDOWS_TESSERACT_BINANY_PATH == None):
+        WINDOWS_TESSERACT_BINARY_PATH = os.getenv("WINDOWS_TESSERACT_BINARY_PATH")
+        if (WINDOWS_TESSERACT_BINARY_PATH == None):
             print("Tesseract binary not found.")
             print("Please see: https://stackoverflow.com/questions/50655738/how-do-i-resolve-a-tesseractnotfounderror")
             return
         
-        pytesseract.tesseract_cmd = WINDOWS_TESSERACT_BINANY_PATH
+        pytesseract.tesseract_cmd = WINDOWS_TESSERACT_BINARY_PATH
+    
+    # Done of initializing the program
+
+    nextClockIn = int(time.time())
 
     while (True):
-        result, msg = clockIn(NID, PASSWORD)
-        print(f"[{getDateTimeNow()}] {NID}: {msg}")
 
-        # Check every 15 mins
+        timeNow = int(time.time())
+        if (timeNow >= nextClockIn):
+            nextClockIn = timeNow + SLEEP_SECS
+
+            result, msg = clockIn(NID, PASSWORD)
+            print(f"[{getDateTimeNow()}] {NID}: {msg}")
+
+        # Sleep for 1 min (Check every 1 min)
         try:
-            time.sleep(15 * 60)
+            time.sleep(60)
         except:
             break
 

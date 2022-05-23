@@ -17,16 +17,16 @@ This is an edited & Python 3 version script of [this](https://github.com/tamama9
 NID=YOUR_NID_HERE
 PASSWORD=YOUR_PASSWORD_HERE
 
-WINDOWS_TESSERACT_BINANY_PATH=
+WINDOWS_TESSERACT_BINARY_PATH=
 ```
 
 4) Download the binary installer from [here](https://github.com/UB-Mannheim/tesseract/wiki)
 
-5) Get the absolute path of `tesseract.exe` and fill it into `WINDOWS_TESSERACT_BINANY_PATH` like this:
+5) Get the absolute path of `tesseract.exe` and fill it into `WINDOWS_TESSERACT_BINARY_PATH` like this:
 
 ```
 # Example
-WINDOWS_TESSERACT_BINANY_PATH=C:\Program Files\Tesseract-OCR\tesseract.exe
+WINDOWS_TESSERACT_BINARY_PATH=C:\Program Files\Tesseract-OCR\tesseract.exe
 ```
 
 6) Should be good to go, run `python main.py`
