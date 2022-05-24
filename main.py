@@ -101,8 +101,8 @@ def clockIn(nid: str, password: str):
     imgBytes = io.BytesIO(r.content)
     img = Image.open(imgBytes)
 
-    imgText = str(image_to_string(img, config='--psm 6 tessedit_char_whitelist 0123456789'))
-    checkInData["validateCode"] = imgText
+    imgText = str(image_to_string(img, config="--psm 6 tessedit_char_whitelist=0123456789"))
+    checkInData["validateCode"] = imgText.replace("\n", "")
     
     button = html.find("input", {"type": "submit", "name": "Button0"})
     if (button == None):
@@ -126,7 +126,8 @@ def clockIn(nid: str, password: str):
         
         return True, "Clock in SUCCESS!"
     
-    except:
+    except Exception as e:
+        print(repr(e))
         return False, "Unable to clock in."
 
 def getDateTimeNow():
