@@ -12,8 +12,8 @@ from dotenv import load_dotenv
 from const import *
 
 def main():
-    # Default: Clock-in every 15 mins
-    SLEEP_MINS = 15
+    # Default: Clock-in every 10 mins
+    SLEEP_MINS = 10
     SLEEP_SECS = SLEEP_MINS * 60
 
     load_dotenv()
