@@ -41,8 +41,8 @@ def main():
         if (timeNow >= nextClockIn):
             nextClockIn = timeNow + SLEEP_SECS
 
-            result, msg = clockIn(NID, PASSWORD)
-            print(f"[{getDateTimeNow()}] {NID}: {msg}")
+            result, msg, code = clockIn(NID, PASSWORD)
+            print(f"[{getDateTimeNow()}] {NID}: {msg} (Code: {code})")
 
         # Sleep for 1 min (Check every 1 min)
         try:
@@ -76,7 +76,7 @@ def clockIn(nid: str, password: str):
 
     failMsg = "您的登入嘗試失敗。請再試一次"
     if (failMsg in loginResponse.text):
-        return False, "Unable to login with given NID & Password."
+        return False, "Unable to login with given NID & Password.", None
     
     # ---
 
@@ -102,11 +102,12 @@ def clockIn(nid: str, password: str):
     img = Image.open(imgBytes)
 
     imgText = str(image_to_string(img, config="--psm 6 tessedit_char_whitelist=0123456789"))
-    checkInData["validateCode"] = imgText.replace("\n", "")
+    code = imgText.replace("\n", "")
+    checkInData["validateCode"] = code
     
     button = html.find("input", {"type": "submit", "name": "Button0"})
     if (button == None):
-        return False, "You don't have any classes now."
+        return False, "You don't have any classes now.", code
 
     checkInData["Button0"] = button["value"]
     for i in html.find_all("input", {"type": "hidden", "value": True}):
@@ -122,13 +123,13 @@ def clockIn(nid: str, password: str):
     try:
         disabled = html.find("input", {"type": "submit", "name": "Button0"})
         if (disabled["disabled"] != "disabled"):
-            return False, "Unable to clock in."
+            return False, "Unable to clock in.", code
         
-        return True, "Clock in SUCCESS!"
+        return True, "Clock in SUCCESS!", code
     
     except Exception as e:
         print(repr(e))
-        return False, "Unable to clock in."
+        return False, "Unable to clock in.", code
 
 def getDateTimeNow():
     """
