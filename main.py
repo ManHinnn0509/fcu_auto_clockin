@@ -32,7 +32,7 @@ def main():
         pytesseract.tesseract_cmd = WINDOWS_TESSERACT_BINARY_PATH
     
     # Done of initializing the program
-
+    
     nextClockIn = int(time.time())
 
     while (True):
@@ -49,14 +49,17 @@ def main():
             time.sleep(60)
         except:
             break
+    
+
+    # clockIn(NID, PASSWORD)
 
     print("--- End of Program ---")
 
 def clockIn(nid: str, password: str):
     loginData = {
-        '__EVENTTARGET':'',
-        '__EVENTARGUMENT':'',
-        'LoginLdap$LoginButton':'登入'
+        '__EVENTTARGET': '',
+        '__EVENTARGUMENT': '',
+        'LoginLdap$LoginButton': '登入'
     }
 
     s = req.session()
@@ -97,12 +100,24 @@ def clockIn(nid: str, password: str):
     mainPage = s.post(MAIN_PAGE_URL, headers=HEADERS, data=gotoCheckIn)
     html = BS(mainPage.text, "html.parser")
 
-    r = s.get(VALIDATE_CODE_URL)
-    imgBytes = io.BytesIO(r.content)
-    img = Image.open(imgBytes)
+    code = ""
 
-    imgText = str(image_to_string(img, config="--psm 6 tessedit_char_whitelist=0123456789"))
-    code = imgText.replace("\n", "")
+    # Retry until the code is valid
+    while (len(code) != 4):
+        r = s.get(VALIDATE_CODE_URL)
+
+        imgBytes = io.BytesIO(r.content)
+        img = Image.open(imgBytes)
+
+        # Save the image
+        # img.save(str(f"{int(time.time())}.png"))
+
+        imgText = str(image_to_string(img, config="--psm 6 -c tessedit_char_whitelist=0123456789"))
+        code = imgText.replace("\n", "")
+        # print(code)
+        
+        time.sleep(3)
+
     checkInData["validateCode"] = code
     
     button = html.find("input", {"type": "submit", "name": "Button0"})
