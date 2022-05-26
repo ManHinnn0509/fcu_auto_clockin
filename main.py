@@ -119,7 +119,7 @@ def clockIn(nid: str, password: str):
         if (len(code) == 4):
             break
         
-        print(f"[{int(time.time())}] Invalid detection found... Now retrying...")
+        print(f"[{getDateTimeNow()}] Invalid detection found... Now retrying... (Code: {code})")
         time.sleep(3)
 
     checkInData["validateCode"] = code
