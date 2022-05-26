@@ -95,7 +95,7 @@ def clockIn(nid: str, password: str):
 
     # ---
 
-    checkInData = {}
+    clockInData = {}
 
     mainPage = s.post(MAIN_PAGE_URL, headers=HEADERS, data=gotoCheckIn)
     html = BS(mainPage.text, "html.parser")
@@ -122,21 +122,21 @@ def clockIn(nid: str, password: str):
         print(f"[{getDateTimeNow()}] Invalid detection found... Now retrying... (Code: {code})")
         time.sleep(3)
 
-    checkInData["validateCode"] = code
+    clockInData["validateCode"] = code
     
     button = html.find("input", {"type": "submit", "name": "Button0"})
     if (button == None):
         return False, "You don't have any classes now.", code
 
-    checkInData["Button0"] = button["value"]
+    clockInData["Button0"] = button["value"]
     for i in html.find_all("input", {"type": "hidden", "value": True}):
         name = str(i["name"])
         value = str(i["value"])
-        checkInData[name] = value
+        clockInData[name] = value
 
     # ---
 
-    result = s.post(CLOCK_IN_URL, headers=HEADERS, data=checkInData)
+    result = s.post(CLOCK_IN_URL, headers=HEADERS, data=clockInData)
     html = BS(result.text, "html.parser")
 
     try:
