@@ -103,7 +103,7 @@ def clockIn(nid: str, password: str):
     code = ""
 
     # Retry until the code is valid
-    while (len(code) != 4):
+    while (True):
         r = s.get(VALIDATE_CODE_URL)
 
         imgBytes = io.BytesIO(r.content)
@@ -115,7 +115,11 @@ def clockIn(nid: str, password: str):
         imgText = str(image_to_string(img, config="--psm 6 -c tessedit_char_whitelist=0123456789"))
         code = imgText.replace("\n", "")
         # print(code)
+
+        if (len(code) == 4):
+            break
         
+        print(f"[{int(time.time())}] Invalid detection found... Now retrying...")
         time.sleep(3)
 
     checkInData["validateCode"] = code
