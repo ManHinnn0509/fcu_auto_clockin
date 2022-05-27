@@ -3,6 +3,8 @@
 
 This is an edited & Python 3 version script of [this](https://github.com/tamama9527/autopunch-full/blob/master/autopunch.py)
 
+This program requires **Tesseract 5.0** or above, otherwise exception will be raised.
+
 ## How to install
 
 ### Windows

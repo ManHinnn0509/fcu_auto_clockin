@@ -119,7 +119,7 @@ def clockIn(nid: str, password: str):
         if (len(code) == 4):
             break
         
-        print(f"[{getDateTimeNow()}] Invalid detection found... Now retrying... (Code: {code})")
+        print(f"[{getDateTimeNow()}] {nid}: Invalid detection found... Now retrying... (Code: {code})")
         time.sleep(3)
 
     clockInData["validateCode"] = code
@@ -147,7 +147,7 @@ def clockIn(nid: str, password: str):
         return True, "Clock in SUCCESS!", code
     
     except Exception as e:
-        print(repr(e))
+        # print(repr(e))
         return False, "Unable to clock in.", code
 
 def getDateTimeNow():
