@@ -48,8 +48,11 @@ def main():
 
             # Sleep for 1 min (Check every 1 min)
             time.sleep(60)
-        except:
-            break
+        except Exception as e:
+            print(e)
+            continue
+
+            # break
     
 
     # clockIn(NID, PASSWORD)
