@@ -37,25 +37,17 @@ def main():
 
     while (True):
 
-        timeNow = int(time.time())
-        if (timeNow >= nextClockIn):
-            nextClockIn = timeNow + SLEEP_SECS
-
         try:
             # Moved these 2 lines to here to avoid stupid exception to terminate the program
             result, msg, code = clockIn(NID, PASSWORD)
             print(f"[{getDateTimeNow()}] {NID}: {msg} (Code: {code})")
 
             # Sleep for 1 min (Check every 1 min)
-            time.sleep(60)
+            time.sleep(600)
         except Exception as e:
+        
             print(e)
             continue
-
-            # break
-    
-
-    # clockIn(NID, PASSWORD)
 
     print("--- End of Program ---")
 
