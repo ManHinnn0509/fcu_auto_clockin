@@ -43,7 +43,7 @@ def main():
             print(f"[{getDateTimeNow()}] {NID}: {msg} (Code: {code})")
 
             # Sleep for 1 min (Check every 1 min)
-            time.sleep(600)
+            time.sleep(SLEEP_SECS)
         except Exception as e:
         
             print(e)
