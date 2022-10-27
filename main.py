@@ -63,9 +63,9 @@ def main():
 
                     time.sleep(3)
 
-        # Sleep for 10 seconds (Check every 10 seconds)
+        # Sleep for 1 second (Check every 1 second)
         try:
-            time.sleep(10)
+            time.sleep(1)
         except:
             break
 
