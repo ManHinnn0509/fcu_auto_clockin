@@ -15,6 +15,7 @@ def main():
     # Default: Clock-in every 10 mins
     SLEEP_MINS = 10
     SLEEP_SECS = SLEEP_MINS * 60
+    MAX_RETRY_AMOUNT = 5
 
     load_dotenv()
 
@@ -37,17 +38,36 @@ def main():
 
     while (True):
 
-        try:
-            # Moved these 2 lines to here to avoid stupid exception to terminate the program
-            result, msg, code = clockIn(NID, PASSWORD)
-            print(f"[{getDateTimeNow()}] {NID}: {msg} (Code: {code})")
+        timeNow = int(time.time())
+        if (timeNow >= nextClockIn):
+            nextClockIn = timeNow + SLEEP_SECS
 
-            # Sleep for 1 min (Check every 1 min)
-            time.sleep(SLEEP_SECS)
-        except Exception as e:
-        
-            print(e)
-            continue
+            try:
+                result, msg, code = clockIn(NID, PASSWORD)
+                print(f"[{getDateTimeNow()}] {NID}: {msg} (Code: {code})")
+            
+            except:
+                
+                print(f"[{getDateTimeNow()}] Exception caught, retrying to clockin...")
+                retry = 0
+
+                while (msg == "Unable to clock in."):
+                    result, msg, code = clockIn(NID, PASSWORD)
+                    if (result):
+                        break
+                    
+                    retry += 1
+                    if (retry == MAX_RETRY_AMOUNT):
+                        print(f"[{getDateTimeNow()}] Maximum retry amount reached. Now abandoning current clockin.")
+                        break
+
+                    time.sleep(3)
+
+        # Sleep for 10 seconds (Check every 10 seconds)
+        try:
+            time.sleep(10)
+        except:
+            break
 
     print("--- End of Program ---")
 
